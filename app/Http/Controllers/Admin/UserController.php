@@ -9,9 +9,53 @@ use Illuminate\Support\Facades\Validator;
 use App\Models\TempImage;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Gd\Driver;
 
 class UserController extends Controller
 {
+    public function updateProfilePic(Request $request){
+        $id = Auth::user()->id;
+        $validator = Validator::make($request->all(),[
+            'image' => 'required|image'
+        ]);
+        if ($validator->passes()) {
+            $image = $request->image;
+           $ext = $image->getClientOriginalExtension();
+           $imageName = $id.'-'.time().'-'.$ext;
+           $image->move(public_path('/uploads/user/'),$imageName);
+
+           //Create Small Thumbnail
+           $sourcePath = public_path('/uploads/user/'.$imageName);
+           $manager = new ImageManager(Driver::class);
+           $image = $manager->read($sourcePath);
+
+         // crop the best fitting 5:3 (600x360) ratio and resize to 600x360 pixel
+         $image->cover(150, 150);
+         $image->toPng()->save(public_path('/temp/'. $imageName));
+
+         //Delete Old Pic
+         File::delete(public_path('/temp/'.Auth::user()->image));
+         File::delete(public_path('/profile_pic/'.Auth::user()->image));
+
+
+         User::where('id',$id)->update(['image'=> $imageName]);
+
+         session()->flash('success', 'Profile picture updated successfully.');
+         return response()->json([
+             'status' => true,
+             'errors' => []
+         ]);
+     } else {
+         return response()->json([
+             'status' => false,
+             'errors' => $validator->errors()
+         ]);
+     }
+  }
+
     public function index(Request $request){
         $users = User::orderBy('id','ASC');
         if(!empty($request->get('keyword'))) {

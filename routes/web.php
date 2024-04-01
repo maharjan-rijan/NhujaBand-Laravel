@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\Admin\LoginController;
 use App\Http\Controllers\Admin\HomeController;
+use Illuminate\Support\Str;
 use App\Http\Controllers\FrontController;
 
 
@@ -50,6 +51,8 @@ Route::group(['prefix' => 'admin'],function(){
     Route::group(['middleware' => 'admin.auth'],function(){
         Route::get('/dashboard',[HomeController::class,'index'])->name('admin.dashboard');
         Route::get('/logout',[HomeController::class,'logout'])->name('admin.logout');
+        Route::put('/update-profile-pic',[UserController::class,'updateProfilePic'])->name('account.updateProfilePic');
+
 
         //Team Member
         Route::get('/team-members',[TeamMemberController::class,'index'])->name('team-members.index');

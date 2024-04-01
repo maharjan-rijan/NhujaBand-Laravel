@@ -58,11 +58,12 @@
                         @foreach ($users as $user)
                         <tr>
                             <td>{{ $loop->index+1 }}</td>
-                            <td> @if (!empty($user->image))
-                                <img src="{{ asset('uploads/User/').'/'.$user->image }}" class="img-thumbnail" width="40" >
-                                @else
-                                <img src="{{ asset('assets/front-assets/img/slide/logo.jpg') }}" class="img-thumbnail" width="50">
-                                @endif</td>
+                            <td>
+                                @if(Auth::user()->image != '')
+                                <img src="{{ asset('uploads/users/'.Auth::user()->image) }}" alt="avatar"  class="img-thumbnail" width="40">
+                            @else
+                                <img src="{{ asset('assets/front-assets/img/slide/logo.jpg') }}" alt="avatar"  class="img-thumbnail" width="40">
+                            @endif</td>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->phone }}</td>

@@ -43,8 +43,11 @@
 					</li>
 					<li class="nav-item dropdown">
 						<a class="nav-link p-0 pr-3" data-toggle="dropdown" href="#">
-							<img src="{{ asset('assets/admin-assets/img/logo/logo 1.jpg') }}" class='img-circle elevation-2' width="40" height="40" alt="">
-						</a>
+                            @if(Auth::user()->image != '')
+                    <img src="{{ asset('/thumb/'.Auth::user()->image) }}" alt="avatar"  class='img-circle elevation-2' width="40" height="40">
+                @else
+                    <img src="{{ asset('assets/admin-assets/img/logo/logo 1.jpg') }}" alt="avatar" class="img-circle elevation-2" width="40" height="40">
+                @endif</a>
 						<div class="dropdown-menu dropdown-menu-lg dropdown-menu-right p-3">
 							<h4 class="h4 mb-0"><strong>{{ Auth::guard('admin')->user()->name }}</strong></h4>
 							<div class="mb-3">{{ Auth::guard('admin')->user()->email }}</div>

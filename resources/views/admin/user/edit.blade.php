@@ -32,11 +32,11 @@
                             </div>
                         </div>
                     </div>
-                        @if (!empty($user->image))
-                        <div>
-                            <img width="250" src="{{ asset('uploads/User/').'/'.$user->image }}" alt="" srcset="">
-                        </div>
-                        @endif
+                    @if(Auth::user()->image != '')
+                    <img src="{{ asset('/thumb/'.Auth::user()->image) }}" alt="avatar"  class="img-thumbnail" width="40">
+                @else
+                    <img src="{{ asset('assets/front-assets/img/slide/logo.jpg') }}" alt="avatar" class="img-thumbnail" width="150">
+                @endif
                 </div>
                 <div class="row">
                     <div class="col-md-6">
