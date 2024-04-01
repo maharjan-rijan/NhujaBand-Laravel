@@ -55,16 +55,9 @@
             @if (getGalleries()->isNotEmpty())
             @foreach (getGalleries() as $gallery)
           <div class="swiper-slide"><a href="{{ asset('uploads/Gallery/'.$gallery->image) }}" class="glightbox"><img src="{{ asset('uploads/Gallery/'.$gallery->image) }}" class="img-fluid" alt=""></a></div>
-          @endforeach
-          @endif
-          {{-- <div class="swiper-slide"><a href="{{ asset('front-assets/assets/img/recent-photos/recent-photos-2.jpg') }}" class="glightbox"><img src="{{ asset('front-assets/assets/img/recent-photos/recent-photos-2.jpg') }}" class="img-fluid" alt=""></a></div>
-          <div class="swiper-slide"><a href="{{ asset('front-assets/assets/img/recent-photos/recent-photos-3.jpg') }}" class="glightbox"><img src="{{ asset('front-assets/assets/img/recent-photos/recent-photos-3.jpg') }}" class="img-fluid" alt=""></a></div>
-          <div class="swiper-slide"><a href="{{ asset('front-assets/assets/img/recent-photos/recent-photos-4.jpg') }}" class="glightbox"><img src="{{ asset('front-assets/assets/img/recent-photos/recent-photos-4.jpg') }}" class="img-fluid" alt=""></a></div>
-          <div class="swiper-slide"><a href="{{ asset('front-assets/assets/img/recent-photos/recent-photos-5.jpg') }}" class="glightbox"><img src="{{ asset('front-assets/assets/img/recent-photos/recent-photos-5.jpg') }}" class="img-fluid" alt=""></a></div>
-          <div class="swiper-slide"><a href="{{ asset('front-assets/assets/img/recent-photos/recent-photos-6.jpg') }}" class="glightbox"><img src="{{ asset('front-assets/assets/img/recent-photos/recent-photos-6.jpg') }}" class="img-fluid" alt=""></a></div>
-          <div class="swiper-slide"><a href="{{ asset('front-assets/assets/img/recent-photos/recent-photos-7.jpg') }}" class="glightbox"><img src="{{ asset('front-assets/assets/img/recent-photos/recent-photos-7.jpg') }}" class="img-fluid" alt=""></a></div>
-          <div class="swiper-slide"><a href="{{ asset('front-assets/assets/img/recent-photos/recent-photos-8.jpg') }}" class="glightbox"><img src="{{ asset('front-assets/assets/img/recent-photos/recent-photos-8.jpg') }}" class="img-fluid" alt=""></a></div> --}}
-        </div>
+        @endforeach
+      @endif
+    </div>
         <div class="swiper-pagination"></div>
       </div>
       <div class="recent-photos-slider swiper">

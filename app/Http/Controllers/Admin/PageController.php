@@ -59,6 +59,11 @@ class PageController extends Controller
 
             $page->image = $newImageName;
             $page->save();
+
+             //Delete old Image
+             File::delete(public_path().'/temp/'.$tempImage->name);
+             // File::delete(public_path().'/uploads/Member/'.$oldImage);
+
          }
 
         $message = 'Page added successfully.';
@@ -69,8 +74,8 @@ class PageController extends Controller
             'message' => $message
         ]);
     }
-    public function edit($id){
-        $page = Page::find($id);
+    public function edit($pageId){
+        $page = Page::find($pageId);
         $message = 'Page not found.';
         if($page == null){
             session()->flash('error',$message);
@@ -94,12 +99,7 @@ class PageController extends Controller
             'name' => 'required',
             'slug' => 'required',
         ]);
-        if($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors()
-            ]);
-        }
+        if($validator->passes()) {
 
         $page->name = $request->name;
         $page->slug = $request->slug;
@@ -112,14 +112,37 @@ class PageController extends Controller
         $page->content = $request->content;
         $page->save();
 
-        $message = 'Page updated successfully.';
+        if(!empty($request->image_id)){
+            $tempImage = TempImage::find($request->image_id);
+            $extArray = explode('.',$tempImage->name);
+            $ext = last($extArray);
 
+            $newImageName = $page->id.'-'.time().'.'.$ext;
+            $sPath = public_path().'/temp/'.$tempImage->name;
+            $dPath = public_path().'/uploads/Page/'.$newImageName;
+            File::copy($sPath,$dPath);
+
+            $page->image = $newImageName;
+            $page->save();
+
+             //Delete old Image
+             File::delete(public_path().'/temp/'.$tempImage->name);
+             // File::delete(public_path().'/uploads/Member/'.$oldImage);
+        }
+        $message = 'Page updated successfully.';
         session()->flash('success',$message);
         return response()->json([
             'status' => true,
             'message' => $message
         ]);
+    } else {
+        return response()->json([
+            'status' => false,
+            'errors' => $validator->errors()
+        ]);
     }
+    }
+
     public function destory($id) {
         $page = Page::find($id);
         $message = 'Page not found.';
